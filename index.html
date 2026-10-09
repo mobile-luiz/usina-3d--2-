@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Usina em 3D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1 id="tituloTela">Usina em 3D</h1>
+    <p id="subTela">A safra agora, da balança à expedição, com cada carga e lote parado na etapa em que está.</p>
+  </div>
+  <div class="actions">
+    <select id="filtro" class="so-3d" aria-label="Escolher área da usina">
+      <option value="">Toda a usina</option>
+      <option value="recepcao">Recepção de cana</option>
+      <option value="fabrica">Fábrica de açúcar</option>
+      <option value="energia">Energia</option>
+      <option value="destilaria">Destilaria</option>
+      <option value="expedicao">Armazém e expedição</option>
+      <option value="colheita">Frentes de colheita</option>
+      <option value="oficina">Oficina automotiva</option>
+    </select>
+    <button id="togglePainel" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="4" width="7" height="7" rx="1.5"/><rect x="14" y="4" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Painel gerencial</span></button>
+    <div class="mais">
+      <button id="btnMais" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="menuMais"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>Mais</button>
+      <div class="menu" id="menuMais" role="menu" hidden>
+        <button id="btnTV" type="button" role="menuitem" title="Tela cheia passando pelas áreas da usina e pelo painel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Modo TV</button>
+        <button id="btnLuz" class="so-3d" type="button" role="menuitem" title="Dia e noite pela hora real, ou fixo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>Luz automática</button>
+        <button id="btnSo3D" class="so-3d" type="button" aria-pressed="false" title="Esconde pisos, cubos e etiquetas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>Só o 3D</button>
+        <button id="btnQualidade" class="so-3d" type="button" aria-pressed="true" title="Sombras de contato e suavização"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Qualidade alta</button>
+        <button id="btnSom" type="button" role="menuitem" aria-pressed="true" title="Voz do motorista e do CCO junto com as mensagens"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>Som do rádio ligado</button>
+        <button id="btnVozCCO" type="button" role="menuitem" title="Escolher a voz do CCO entre as vozes em português do computador"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>Voz do CCO</button>
+        <button id="btnTema" type="button" role="menuitem" title="Cores claras ou escuras na tela"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>Tema do sistema</button>
+        <hr>
+        <button class="btnPdf" type="button" title="Relatório com a imagem do 3D, gráficos e tabelas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 12v6M9 15l3 3 3-3"/></svg>Exportar PDF</button>
+        <button id="atualizar" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>Atualizar</button>
+      </div>
+    </div>
+  </div>
+</header>
+<button class="sair-tv" id="sairTV" type="button" hidden>Sair do modo TV</button>
+<div class="tv-area" id="tvArea" aria-live="polite"></div>
+
+<div class="layout">
+<main class="stage" id="stage">
+  <div class="hud">
+    <button class="hero3d" id="hero3d" type="button" title="Abrir o painel gerencial"></button>
+    <div class="kpis" id="kpis"></div>
+    <div class="stamp" id="stamp"></div>
+  </div>
+  <div class="labels" id="labels"></div>
+  <details class="legend">
+    <summary>Legenda</summary>
+    <div class="itens">
+    <div><i class="sw" style="background:var(--red)"></i>Etapa estourada</div>
+    <div><i class="sw" style="background:var(--warn)"></i>Perto de estourar</div>
+    <div><i class="sw" style="background:var(--purple)"></i>Parado (manutenção)</div>
+    <div><i class="sw" style="background:var(--ok)"></i>No prazo da etapa</div>
+    <div><i class="sw" style="background:var(--grey)"></i>Etapa sem prazo definido</div>
+    <div><i class="sw" style="background:var(--blue);transform:rotate(45deg) scale(.8)"></i>Voltou para reprocesso</div>
+    </div>
+  </details>
+  <div class="hint" id="hint">Arraste para girar, botão direito para mover, role para aproximar. Clique numa etapa para ver as cargas.</div>
+  <button class="recenter" id="recenter" type="button">Recentralizar</button>
+  <div class="aviso" id="aviso" role="status"></div>
+  <div class="radio3d" id="radio3d" aria-live="polite"></div>
+  <div class="card-cam" id="cardCam" role="dialog" aria-label="Ficha do caminhão" hidden></div>
+  <aside class="panel" id="panel" hidden aria-live="polite">
+    <div class="ph">
+      <h2 id="pTitle"></h2>
+      <p id="pSub"></p>
+      <button class="close" id="pClose" type="button" aria-label="Fechar">×</button>
+      <button class="seguir" id="pSeguir" type="button" hidden>Acompanhar a colhedora de perto</button>
+    </div>
+    <div class="sum" id="pSum"></div>
+    <ul id="pList"></ul>
+  </aside>
+</main>
+</div>
+
+<main class="tela-painel" id="telaPainel" aria-label="Painel gerencial">
+<div class="painel-grid gestao">
+  <section class="larga destaque">
+    <h2>Moagem no dia safra</h2>
+    <p class="meta-txt" id="gDiaSub"></p>
+    <div class="big"><span id="gMoagem">0</span><small>t</small></div>
+    <div class="meta-bar"><i id="gMetaBar" style="width:0"></i><span class="marca" id="gMetaMarca" title="Onde a moagem deveria estar agora para bater a meta"></span></div>
+    <p class="meta-txt" id="gMetaTxt"></p>
+    <div class="trio">
+      <div><b id="gRitmo">0</b><span>t/h agora</span></div>
+      <div><b id="gProj">0</b><span>t previstas no fechamento do dia</span></div>
+      <div><b id="gOntem">0</b><span id="gOntemTxt">que ontem</span></div>
+    </div>
+  </section>
+  <section>
+    <h3>Turnos</h3>
+    <div class="turnos" id="gTurnos"></div>
+    <p class="meta-txt turno-txt" id="gTurnoTxt"></p>
+  </section>
+  <section class="larga">
+    <h3>Moagem por hora</h3>
+    <div class="chart" id="gChart"></div>
+    <div class="chart-leg"><span><i class="sw" style="background:var(--ok)"></i>No ritmo</span><span><i class="sw" style="background:var(--warn)"></i>Abaixo do ritmo</span><span><i class="sw" style="background:var(--red)"></i>Com parada</span><span><i class="sw" style="background:none;border-top:2px dashed var(--muted);height:0;border-radius:0"></i>Ontem</span><span><i class="sw" style="background:none;border-top:2px dashed var(--ink);height:0;border-radius:0"></i>Meta</span></div>
+  </section>
+  <section class="larga">
+    <h3>Acumulado do dia</h3>
+    <div class="chart" id="gAcum"></div>
+    <p class="meta-txt" id="gAcumTxt" style="margin-top:8px"></p>
+  </section>
+  <section class="larga">
+    <h3>Safra</h3>
+    <div class="meta-bar"><i id="gSafraBar" style="width:0"></i></div>
+    <div class="grid2" id="gSafra"></div>
+    <div class="chart" id="gSafraChart" style="margin-top:14px"></div>
+  </section>
+  <section>
+    <h3>Casa de cana</h3>
+    <div class="grid2" id="gCasa"></div>
+    <p class="alerta" id="gCasaAlerta"></p>
+  </section>
+  <section class="larga">
+    <h3>Oficina automotiva</h3>
+    <div class="grid2" id="gOfi"></div>
+    <p class="alerta" id="gOfiAlerta"></p>
+    <table class="tbl ofi" id="gOfiLista"></table>
+  </section>
+  <section>
+    <h3>Bagaço e energia</h3>
+    <div class="grid2" id="gBag"></div>
+    <p class="alerta" id="gBagAlerta"></p>
+  </section>
+  <section class="larga">
+    <h3>Cota de entrada de cana <small class="par-tot" id="gCotaJan"></small></h3>
+    <div id="gCota"><p class="meta-txt">O CCO passa a primeira cota no rádio em alguns segundos.</p></div>
+    <button type="button" class="btn-sec" id="btnCotaRadio">Passar a cota no rádio agora</button>
+  </section>
+  <section class="larga">
+    <h3>Frentes de colheita</h3>
+    <div class="trio fr-trio" id="gFrTrio"></div>
+    <div class="frentes" id="gFrentes"></div>
+    <h4 class="sub">Vazios a caminho das frentes</h4>
+    <p class="meta-txt">Ao sair vazio da balança, o sistema manda o caminhão para a frente colhendo com vaga na fila (máximo de 2 aguardando).</p>
+    <table class="tbl desp" id="gDesp"></table>
+    <p class="alerta aviso-patio" id="gPatio"></p>
+    <h4 class="sub">Carregados a caminho da usina</h4>
+    <p class="meta-txt">Todo motorista que sai carregado da frente avisa o CCO pelo rádio e entra nesta lista até chegar na balança.</p>
+    <table class="tbl desp carr" id="gCarr"></table>
+  </section>
+  <section>
+    <h3>Rádio do CCO</h3>
+    <div class="radio-filtro" id="radioFiltro" role="group" aria-label="Filtrar conversas">
+      <button type="button" data-canal="todos" aria-pressed="true">Todas</button>
+      <button type="button" data-canal="despacho" aria-pressed="false">Despacho</button>
+      <button type="button" data-canal="frentes" aria-pressed="false">Frentes</button>
+      <button type="button" data-canal="campo" aria-pressed="false">Campo</button>
+    </div>
+    <ul class="radio-log" id="gRadio"></ul>
+  </section>
+  <section>
+    <h3>Produção no dia safra</h3>
+    <div class="grid2" id="gProd"></div>
+    <div class="mix" id="gMix"></div>
+  </section>
+  <section class="larga">
+    <h3>Qualidade da cana e do açúcar</h3>
+    <div class="qual" id="gQual"></div>
+    <p class="alerta" id="gQualAlerta"></p>
+  </section>
+  <section>
+    <h3>Gargalos agora</h3>
+    <ol class="garg" id="gGarg"></ol>
+  </section>
+  <section>
+    <h3>Maiores fornecedores no dia safra</h3>
+    <table class="tbl" id="gForn"></table>
+  </section>
+  <section>
+    <h3>Paradas da moenda <small class="par-tot" id="gParTot"></small></h3>
+    <div id="gAprov"></div>
+    <ul class="paradas" id="gParadas"></ul>
+  </section>
+  <section>
+    <button class="export btnPdf" type="button">Exportar relatório em PDF</button>
+    <button class="export export2" id="gExport" type="button">Exportar dados em CSV</button>
+  </section>
+</div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/math/SimplexNoise.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/SSAOShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/FXAAShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/SSAOPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/objects/Sky.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/RoundedBoxGeometry.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+<script src="js/cena.js"></script>
+<script src="js/veiculos.js"></script>
+<script src="js/dados.js"></script>
+<script src="js/camera.js"></script>
+<script src="js/frentes.js"></script>
+<script src="js/oficina.js"></script>
+<script src="js/casa-de-cana.js"></script>
+<script src="js/graficos.js"></script>
+<script src="js/painel.js"></script>
+<script src="js/despacho.js"></script>
+<script src="js/patio.js"></script>
+<script src="js/cota.js"></script>
+<script src="js/caminhoes-info.js"></script>
+<script src="js/radio-audio.js"></script>
+<script src="js/pdf.js"></script>
+<script src="js/ciclo-dia.js"></script>
+<script src="js/interface.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
